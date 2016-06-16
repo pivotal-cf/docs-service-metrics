@@ -8,12 +8,14 @@ Upload the following releases to your BOSH director:
 
 * your service release
 * the service-metrics release
+* your <service-name>-metrics release
 
 # Writing a BOSH manifest
 The service manifest should have a non-errand instance group that colocates the following jobs:
 
 * the `<service-name>` job from the service release
 * the `service-metrics` job from the service metrics release
+* the `<service-name>-metrics` job from <service-name>-metrics release
 * the `metron_agent` job from the loggregator release
 
 ```yaml
@@ -21,10 +23,12 @@ instance_groups:
 - name: service-metrics
   instances: 1
   jobs:
-  - name: service
+  - name: my-service
     release: <service-release>
   - name: service_metrics
-    release: *name
+    release: service-metrics
+  - name: my-service-metrics
+    release: my-service-metrics
   - name: metron_agent
     release: loggregator
   stemcell: trusty
@@ -35,12 +39,14 @@ instance_groups:
 ```
 
 The service metrics job expects some configuration to be present:
-* origin: the name of the service, so it can 'mark' metrics originating from that service in the logs (mandatory)
-* metrics_command: the command to generate the metrics (mandatory)
-* metrics_command_args: any args to be provided to metrics_command (optional, default: [])
-* execution_interval_seconds: how often the metric generation command should be ran (optional, default: 60)
-* debug: turn verbose mode on/off (optional, default: false)
-* monit_dependencies: an array of jobs that must be up and running before monit attempts to start the service metrics job. This is a way to define job dependencies, which are not supported by BOSH. (optional, default: [])
+| field                      |       Type       |                                                                                   Description                                                                                   | Required | default value |
+|:---------------------------|:----------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|---------:|--------------:|
+| origin                     |      string      |                                           the name of the service, so it can 'mark' metrics originating from that service in the logs                                           |      yes |               |
+| metrics_command            |      string      |                                                                       the command to generate the metrics                                                                       |      yes |               |
+| metrics_command_args       | array of strings |                                                                   any args to be provided to metrics_command                                                                    |       no |            [] |
+| execution_interval_seconds |       int        |                                                              how often the metric generation command should be ran                                                              |       no |            60 |
+| debug                      |     boolean      |                                                                            turn verbose mode on/off                                                                             |       no |         false |
+| monit_dependencies         | array of strings | an array of jobs that must be up and running before monit attempts to start the service metrics job. This is a way to define job dependencies, which are not supported by BOSH. |       no |            [] |
 
 
 An example snippet is shown below:

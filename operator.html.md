@@ -48,6 +48,7 @@ instance_groups:
 ## Properties
 
 The service metrics job expects some configuration to be present:
+
 | field                      |       Type       |                                                                                   Description                                                                                   | Required | default value |
 |:---------------------------|:----------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|---------:|--------------:|
 | origin                     |      string      |                                           the name of the service, so it can 'mark' metrics originating from that service in the logs                                           |      yes |               |
@@ -59,7 +60,7 @@ The service metrics job expects some configuration to be present:
 
 The metrics_command can be a path to an executable script. In this case, make sure that the path is valid on the BOSH-deployed VM and that the file has the right permissions.
 
-If the execution of metrics_command fails for any reason, the BOSH deployment will fail.
+If the execution of metrics_command fails for any reason, the service-metrics job will not start and the BOSH deployment will fail.
 
 An example snippet is shown below:
 

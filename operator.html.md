@@ -3,6 +3,11 @@ title: Service Metrics Documentation
 owner: London Services Enablement
 ---
 
+- [Upload Required Releases](#upload-required-releases)
+- [Writing a BOSH manifest](#writing-bosh-manifest)
+  - [Properties](#properties)
+
+<a id="upload-required-releases"></a>
 # Upload Required Releases
 Upload the following releases to your BOSH director:
 
@@ -10,6 +15,7 @@ Upload the following releases to your BOSH director:
 * the service-metrics release
 * your <service-name>-metrics release
 
+<a id="writing-bosh-manifest"></a>
 # Writing a BOSH manifest
 The service manifest should have a non-errand instance group that colocates the following jobs:
 
@@ -37,6 +43,9 @@ instance_groups:
   - name: service-metrics
   azs: [eu-west-1c]
 ```
+
+<a id="properties"></a>
+## Properties
 
 The service metrics job expects some configuration to be present:
 | field                      |       Type       |                                                                                   Description                                                                                   | Required | default value |

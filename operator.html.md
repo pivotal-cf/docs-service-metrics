@@ -58,7 +58,7 @@ properties:
     execution_interval_seconds: 5
     metrics_command: /bin/echo
     metrics_command_args:
-    - -n
+    - "-n"
     - '[{"key":"service-dummy","value":99,"unit":"metric"}]'
     monit_dependencies: []
     nats:

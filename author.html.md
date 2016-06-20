@@ -12,7 +12,7 @@ The service author provides a metrics collection executable, packaged as a BOSH 
 
 The executable should be designed to be called frequently. The metrics job will call the executable every minute by default, but the interval can be changed by the operator.
 
-The executable can accept command line arguments which might help it to produce the metrics. There is not defined interface for the arguments, leaving the service author to decide what makes more sense for their service. The format of the arguments should be documented for the service author to configure in the deployment manifest.
+The executable can accept command line arguments which might help it to produce the metrics. There is no defined interface for the arguments, leaving the service author to decide what makes more sense for their service. The format of the arguments should be documented for the service author to configure in the deployment manifest.
 
 <a id="creating-a-service-metrics-release"></a>
 # Creating a service metrics release
@@ -24,6 +24,8 @@ For example:
 ./bin/generate-metrics --all --config /var/vcap/jobs/some-service/conf.yml
 ```
 
+
+## Output
 The return type must be a JSON array. Every element in this array is a metric; each metric sample should provide the keys: key, value, unit.
 
 ```json

@@ -58,9 +58,9 @@ The service metrics job expects some configuration to be present:
 | debug                      |     boolean      |                                                                            turn verbose mode on/off                                                                             |       no |         false |
 | monit_dependencies         | array of strings | an array of jobs that must be up and running before monit attempts to start the service metrics job. This is a way to define job dependencies, which are not supported by BOSH. |       no |            [] |
 
-The metrics_command can be a path to an executable script. In this case, make sure that the path is valid on the BOSH-deployed VM and that the file has the right permissions.
+The metrics_command will be ran on the command line and will usually be the path to a binary provided by the service author. In this case, make sure that the path is valid on the BOSH-deployed VM and that the file has the right permissions.
 
-If the execution of metrics_command fails for any reason, the service-metrics job will not start and the BOSH deployment will fail.
+If the execution of metrics_command fails for any reason (for example if the <my-service>-metrics binary exits with a non-zero exit code), the service-metrics job will not start (or will exit with 0 if it was already running) and the BOSH instance will show as `failing`. `monit` will keep trying to restart the service-metrics job. 
 
 An example snippet is shown below:
 
@@ -79,7 +79,7 @@ properties:
       - 10.0.1.109
       port: 4222
       user: nats
-      password: uan7Aque7Dee1jiu3Ru3
+      password: <REPLACE_WITH_PASSWORD>
     etcd:
       machines:
       - 10.0.1.110
@@ -88,13 +88,13 @@ properties:
     deployment: *name
     dropsonde_incoming_port: 3457
   metron_endpoint:
-    shared_secret: uan7Aque7Dee1jiu3Ru3
+    shared_secret: <REPLACE_WITH_SECRET>
   loggregator:
     etcd:
       machines:
         - 10.0.1.110
   loggregator_endpoint:
-    shared_secret: uan7Aque7Dee1jiu3Ru3
+    shared_secret: <REPLACE_WITH_SECRET>
 ```
 
 The service metrics release does not currently support the BOSH v2 manifest format, that allows job level properties.

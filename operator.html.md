@@ -11,18 +11,18 @@ owner: London Services Enablement
 # Upload Required Releases
 Upload the following releases to your BOSH director:
 
-* your service release
-* the service-metrics release
-* your <service-name>-metrics release
+* Your service release
+* The service-metrics release
+* Your service-name-metrics release
 
 <a id="writing-bosh-manifest"></a>
 # Writing a BOSH manifest
 The service manifest should have a non-errand instance group that colocates the following jobs:
 
-* the `<service-name>` job from the service release
-* the `service-metrics` job from the service metrics release
-* the `<service-name>-metrics` job from <service-name>-metrics release
-* the `metron_agent` job from the loggregator release
+* The `<service-name>` job from the service release
+* The `service-metrics` job from the service metrics release
+* The `<service-name>-metrics` job from <service-name>-metrics release
+* The `metron_agent` job from the loggregator release
 
 ```yaml
 instance_groups:

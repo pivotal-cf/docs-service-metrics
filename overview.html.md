@@ -5,7 +5,13 @@ owner: London Services Enablement
 
 # Overview
 
+- [Overview](#overview)
 - [How do service metrics work?](#architecture)
+
+<a id="overview"></a>
+## Overview
+
+The service-metrics SDK allows service authors to easily integrate with the Cloud Foundry logging and metrics system [Loggregator](https://docs.cloudfoundry.org/loggregator/architecture.html) via a colocatable BOSH release.
 
 <a id="architecture"></a>
 ## How do service metrics work?

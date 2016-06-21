@@ -58,9 +58,9 @@ The service metrics job expects some configuration to be present:
 | debug                      |     boolean      |                                                                            turn verbose mode on/off                                                                             |       no |         false |
 | monit_dependencies         | array of strings | an array of jobs that must be up and running before monit attempts to start the service metrics job. This is a way to define job dependencies, which are not supported by BOSH. |       no |            [] |
 
-The metrics_command will be ran on the command line and will usually be the path to a binary provided by the service author. In this case, make sure that the path is valid on the BOSH-deployed VM and that the file has the right permissions.
+The `metrics_command` will be ran on the command line and will usually be the path to a binary provided by the service author. In this case, make sure that the path is valid on the BOSH-deployed VM and that the file has the right permissions.
 
-If the execution of metrics_command fails for any reason (for example if the <my-service>-metrics binary exits with a non-zero exit code), the service-metrics job will not start (or will exit with 0 if it was already running) and the BOSH instance will show as `failing`. `monit` will keep trying to restart the service-metrics job. 
+If the execution of metrics_command fails for any reason (for example if the [my-service]-metrics binary exits with a non-zero exit code), the service-metrics job will not start (or will exit with 0 if it was already running) and the BOSH instance will show as `failing`. `monit` will keep trying to restart the service-metrics job. 
 
 An example snippet is shown below:
 

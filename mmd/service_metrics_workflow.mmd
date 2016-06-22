@@ -1,5 +1,5 @@
 sequenceDiagram
-  Metrics generator->> Service metrics: metrics
+  Service metrics->> Metrics generator: get metrics
   Service metrics->> Metron agent: forward metrics
   Metron agent->> Doppler: forward metrics
   Doppler->> Traffic controller: forward metrics

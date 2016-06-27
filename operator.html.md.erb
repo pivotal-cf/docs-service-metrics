@@ -70,7 +70,7 @@ properties:
       - 10.0.1.109
       port: 4222
       user: nats
-      password: <REPLACE_WITH_PASSWORD>
+      password: <REPLACE-WITH-PASSWORD>
     etcd:
       machines:
       - 10.0.1.110
@@ -79,13 +79,13 @@ properties:
     deployment: *name
     dropsonde_incoming_port: 3457
   metron_endpoint:
-    shared_secret: <REPLACE_WITH_SECRET>
+    shared_secret: <REPLACE-WITH-SECRET>
   loggregator:
     etcd:
       machines:
         - 10.0.1.110
   loggregator_endpoint:
-    shared_secret: <REPLACE_WITH_SECRET>
+    shared_secret: <REPLACE-WITH-SECRET>
 ```
 
 The service metrics release does not currently support the BOSH v2 manifest format, which allows job level properties.

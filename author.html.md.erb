@@ -1,31 +1,26 @@
 ---
-title: Service Metrics Authors
+title: Integrating a Service with Service Metrics
 owner: London Services Enablement
 ---
 
 ## <a id="what-is-required-of-the-service-authors"></a> What is Required of Service Authors?
 
-The service author provides a metrics collection executable, packaged as a BOSH release. The metrics collection executable is responsible for collecting relevant metrics from your service. The metrics are collected by the service-metrics job and forwarded to the metron agent.
+The service author provides a metrics collection executable, packaged as a BOSH release. The metrics collection executable collects relevant metrics from a service, and the Service-metrics job collects and forwards them to the Metron agent.
 
-The executable should be designed to be called frequently. The metrics job will call the executable every minute by default, but the interval can be changed by the operator.
+Service authors must design the executable for frequent calls. The metrics job  calls the executable every minute by default, but the operator can change the interval.
 
-The executable can accept command line arguments which might help it to produce the metrics. There is no defined interface for the arguments, leaving the service author to decide what makes more sense for their service. The format of the arguments should be documented for the service author to configure in the deployment manifest.
+The executable can accept command line arguments to produce metrics. There is no pre-defined interface for the arguments, and service authors must decide upon the design for their service. The format of the arguments should be documented for the service author so that they can configure their deployment manifest.
 
-## <a id="creating-a-service-metrics-release"></a> Creating a Service Metrics Release
+## <a id="create-a-service-metrics-release"></a> Create a Service Metrics Release
 
-The executable should be called from the command line and optionally accept arguments.
+The executable you write must be callable from the command line and optionally accept arguments. See the following example:
 
-For example:
-
-```sh
-./bin/generate-metrics --all --config /var/vcap/jobs/some-service/conf.yml
-```
-
+<pre class="terminal">./bin/generate-metrics --all --config /var/vcap/jobs/some-service/conf.yml</pre>
 
 ## Output
-The return type must be a JSON array. Every element in this array is a metric; each metric sample should provide the keys: key, value, unit.
+The return type must be a JSON array. Every element in this array is a metric, and each metric sample must provide the following keys: `key`, `value`, `unit`.
 
-```json
+<pre class="terminal">
 [
   {
     "key": "average_delay",
@@ -33,7 +28,6 @@ The return type must be a JSON array. Every element in this array is a metric; e
     "unit": "ms"
   },
 ]
+</pre>
 
-```
-
-We recommend following [this](http://metrics20.org/spec/#units) guide for unit names, and highly encourage SI units and prefixes where appropriate.
+Pivotal recommends that you follow the [Metrics 2.0 spec](http://metrics20.org/spec/#units) for unit names, and use SI units and prefixes where appropriate.

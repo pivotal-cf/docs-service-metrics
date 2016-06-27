@@ -1,40 +1,34 @@
 ---
-title: Service Metrics Documentation
+title: Deploying a Release that Uses Service Metrics
 owner: London Services Enablement
 ---
 
-- [Upload Required Releases](#upload-required-releases)
-- [Writing a BOSH manifest](#writing-bosh-manifest)
-  - [Properties](#properties)
-
-<a id="upload-required-releases"></a>
-# Upload Required Releases
+## <a id="upload-required-releases"></a> Upload Required Releases
 Upload the following releases to your BOSH director:
 
 * Your service release
 * The service-metrics release
 * Your service-name-metrics release
 
-<a id="writing-bosh-manifest"></a>
-# Writing a BOSH manifest
-The service manifest should have a non-errand instance group that colocates the following jobs:
+## <a id="write-bosh-manifest"></a> Write a BOSH Manifest
+The service manifest must have a non-errand instance group that co-locates the following jobs:
 
-* The `<service-name>` job from the service release
+* The `<YOUR-SERVICE-NAME>` job from the service release
 * The `service-metrics` job from the service metrics release
-* The `<service-name>-metrics` job from <service-name>-metrics release
-* The `metron_agent` job from the loggregator release
+* The `<YOUR-SERVICE-NAME>-metrics` job from <YOUR-SERVICE-NAME>-metrics release
+* The `metron_agent` job from the Loggregator release
 
 ```yaml
 instance_groups:
 - name: service-metrics
   instances: 1
   jobs:
-  - name: my-service
-    release: <service-release>
+  - name: <YOUR-SERVICE-NAME>
+    release: service-release
   - name: service_metrics
     release: service-metrics
-  - name: my-service-metrics
-    release: my-service-metrics
+  - name: <YOUR-SERVICE-NAME>-metrics
+    release: <YOUR-SERVICE-NAME>-metrics
   - name: metron_agent
     release: loggregator
   stemcell: trusty
@@ -44,23 +38,20 @@ instance_groups:
   azs: [eu-west-1c]
 ```
 
-<a id="properties"></a>
-## Properties
+### <a id="properties"></a> Properties
 
-The service metrics job expects some configuration to be present:
+The service metrics job requires the following configuration properties to be present:
 
-| field                      |       Type       |                                                                                   Description                                                                                   | Required | default value |
+| Field                      |       Type       |                                                                                   Description                                                                                   | Required | Default Value |
 |:---------------------------|:----------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|---------:|--------------:|
-| origin                     |      string      |                                           the name of the service, so it can 'mark' metrics originating from that service in the logs                                           |      yes |               |
-| metrics_command            |      string      |                                                                       the command to generate the metrics                                                                       |      yes |               |
-| metrics_command_args       | array of strings |                                                                   any args to be provided to metrics_command                                                                    |       no |            [] |
-| execution_interval_seconds |       int        |                                                              how often the metric generation command should be ran                                                              |       no |            60 |
-| debug                      |     boolean      |                                                                            turn verbose mode on/off                                                                             |       no |         false |
-| monit_dependencies         | array of strings | an array of jobs that must be up and running before monit attempts to start the service metrics job. This is a way to define job dependencies, which are not supported by BOSH. |       no |            [] |
+| <code>origin</code>                     |      string      |                                           the name of the service, so it can reference metrics originating from that service in the logs                                           |      yes |    ""         |
+| <code>metrics_command</code>            |      string      |                                                                       the command to generate the metrics                                                                       |      yes |     ""        |
+| <code>metrics\_command\_args</code>       | array of strings |                                                                   any args provided to `metrics_command`                                                                    |       no |            [] |
+| <code>execution\_interval\_seconds</code> |       int        |                                                              how often the metric generation command runs                                                              |       no |            60 |
+| <code>debug</code>                      |     boolean      |                                                                            turn verbose mode on/off                                                                             |       no |         false |
+| <code>monit_dependencies</code>         | array of strings | an array of jobs that must run before monit attempts to start the service metrics job. This is a way to define job dependencies, which are not supported by BOSH. |       no |            [] |
 
-The `metrics_command` will be ran on the command line and will usually be the path to a binary provided by the service author. In this case, make sure that the path is valid on the BOSH-deployed VM and that the file has the right permissions.
-
-If the execution of metrics_command fails for any reason (for example if the [my-service]-metrics binary exits with a non-zero exit code), the service-metrics job will not start (or will exit with 0 if it was already running) and the BOSH instance will show as `failing`. `monit` will keep trying to restart the service-metrics job. 
+If the `metrics_command` fails, for example if the `[MY-SERVICE]-metrics` binary exits with a non-zero exit code, the service-metrics job will not start, or will exit with 0 if it was already running. In this case, the BOSH instance shows as `failing` and `monit` will try to restart the service-metrics job. 
 
 An example snippet is shown below:
 
@@ -97,4 +88,4 @@ properties:
     shared_secret: <REPLACE_WITH_SECRET>
 ```
 
-The service metrics release does not currently support the BOSH v2 manifest format, that allows job level properties.
+The service metrics release does not currently support the BOSH v2 manifest format, which allows job level properties.

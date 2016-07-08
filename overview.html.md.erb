@@ -5,12 +5,12 @@ owner: London Services Enablement
 
 ## <a id="overview"></a> Overview
 
-The service-metrics SDK allows service authors to integrate with the Cloud Foundry logging and metrics system [Loggregator](https://docs.cloudfoundry.org/loggregator/architecture.html) using a co-locatable BOSH release.
+The service-metrics SDK allows service authors to integrate with [Loggregator](https://docs.cloudfoundry.org/loggregator/architecture.html), the Cloud Foundry logging and metrics system, using a co-locatable BOSH release.
 
 ## <a id="architecture"></a> How Do Service Metrics Work?
 ![service-catalog-workflow](/img/service_metrics_workflow.mmd.png)
 
-Service metrics are co-located with the service job. The service job runs as a daemon process and executes a metrics generation command at regular intervals. Usually the service author provides a binary for that purpose. In this case the metrics generation command invokes the binary.
+Service metrics are co-located with the service job. The service job runs as a daemon process and executes a metrics generation command at regular intervals. The service author generally provides a binary for that purpose. In this case the metrics generation command invokes the binary.
 
 Service metrics receives the output of the metrics generation command and performs validation on the [format](author.html#output).
 

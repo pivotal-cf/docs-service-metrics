@@ -78,14 +78,24 @@ properties:
     zone: z1
     deployment: *name
     dropsonde_incoming_port: 3457
+    protocols:
+    - udp  # default protocol
+    - tls  # optional, to connect to doppler over TLS
+    tls:  # optional, to connect to doppler over TLS
+      client_cert: <REPLACE_WITH_METRON_AGENT_CERTIFICATE>
+      client_key: <REPLACE_WITH_METRON_AGENT_PRIVATE_KEY>
   metron_endpoint:
     shared_secret: <REPLACE-WITH-SECRET>
   loggregator:
     etcd:
       machines:
         - 10.0.1.110
+    tls: # optional, to connect to doppler over TLS
+      ca_cert: <REPLACE_WITH_LOGGREGATOR_CA_CERTIFICATE>
   loggregator_endpoint:
     shared_secret: <REPLACE-WITH-SECRET>
 ```
 
 The service metrics release does not currently support the BOSH v2 manifest format, which allows job level properties.
+
+The service metrics release supports enabling TLS between Metron and Doppler, which is documented on the [loggregator release](https://github.com/cloudfoundry/loggregator#enabling-tls-between-metron-and-doppler).

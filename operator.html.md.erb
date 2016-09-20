@@ -42,22 +42,20 @@ instance_groups:
 
 The service metrics job can be configured with the following properties:
 
-| Field                        | Type             | Description                                                                                                                                           | Required | Default Value                                                        |
-|:-----------------------------|:-----------------|:------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|:---------------------------------------------------------------------|
-| `origin`                     | string           | the name of the service, so it can reference metrics originating from that service in the logs                                                        | yes      | n/a                                                                  |
-| `metrics_command`            | string           | the command to generate the metrics                                                                                                                   | no       | "/var/vcap/jobs/service-metrics-adapter/bin/collect-service-metrics" |
-| `metrics_command_args`       | array of strings | any args provided to `metrics_command`                                                                                                                | no       | []                                                                   |
-| `execution_interval_seconds` | int              | how often the metric generation command runs                                                                                                          | no       | 60                                                                   |
-| `debug`                      | boolean          | turn verbose mode on/off                                                                                                                              | no       | false                                                                |
-| `monit_dependencies`         | array of strings | jobs that must run before monit attempts to start the service metrics job. This is a way to define job dependencies, which are not supported by BOSH. | no       | []                                                                   |
-| `nats.machines`              | array of strings | IP addresses of Cloud Foundry NATS servers                                                                                                            | yes      | n/a                                                                  |
-| `nats.user`                  | string           | Username for Cloud Controller client to connect to NATS                                                                                               | yes      | n/a                                                                  |
-| `nats.password`              | string           | Password for Cloud Controller client to connect to NATS                                                                                               | yes      | n/a                                                                  |
-| `nats.port`                  | int              | IP port of Cloud Foundry NATS server                                                                                                                  | yes      | n/a                                                                  |
-| `etcd.machines`              | array of strings | IP addresses of Cloud Foundry etcd servers                                                                                                            | yes      | n/a                                                                  |
-| `etcd.maxconcurrentrequests` | int              | Number of concurrent requests to ETCD                                                                                                                 | no       | 10                                                                   |
-
-If the `metrics_command` fails, for example if the `[MY-SERVICE]-metrics` binary exits with a non-zero exit code, the service-metrics job will not start, or will exit with 0 if it was already running. In this case, the BOSH instance shows as `failing` and `monit` will try to restart the service-metrics job.
+| Field                        | Type             | Description                                                                                                                                           | Required | Default Value                           |
+|:-----------------------------|:-----------------|:------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|:----------------------------------------|
+| `origin`                     | string           | the name of the service, so it can reference metrics originating from that service in the logs                                                        | yes      | n/a                                     |
+| `metrics_command`            | string           | the command to generate the metrics                                                                                                                   | no       | [see Metrics command](#metrics-command) |
+| `metrics_command_args`       | array of strings | any args provided to `metrics_command`                                                                                                                | no       | []                                      |
+| `execution_interval_seconds` | int              | how often the metric generation command runs                                                                                                          | no       | 60                                      |
+| `debug`                      | boolean          | turn verbose mode on/off                                                                                                                              | no       | false                                   |
+| `monit_dependencies`         | array of strings | jobs that must run before monit attempts to start the service metrics job. This is a way to define job dependencies, which are not supported by BOSH. | no       | []                                      |
+| `nats.machines`              | array of strings | IP addresses of Cloud Foundry NATS servers                                                                                                            | yes      | n/a                                     |
+| `nats.user`                  | string           | Username for Cloud Controller client to connect to NATS                                                                                               | yes      | n/a                                     |
+| `nats.password`              | string           | Password for Cloud Controller client to connect to NATS                                                                                               | yes      | n/a                                     |
+| `nats.port`                  | int              | IP port of Cloud Foundry NATS server                                                                                                                  | yes      | n/a                                     |
+| `etcd.machines`              | array of strings | IP addresses of Cloud Foundry etcd servers                                                                                                            | yes      | n/a                                     |
+| `etcd.maxconcurrentrequests` | int              | Number of concurrent requests to ETCD                                                                                                                 | no       | 10                                      |
 
 An example snippet is shown below:
 
@@ -104,6 +102,17 @@ properties:
   loggregator_endpoint:
     shared_secret: <REPLACE-WITH-SECRET>
 ```
+
+<a id="metrics-command"></a>
+### Metrics command
+
+The default `metrics_command` is `/var/vcap/jobs/service-metrics-adapter/bin/collect-service-metrics`.
+
+We recommend creating a `service-metrics-adapter` job in your service release that templates this script. The `collect-service-metrics` script can encapsulate any commands and arguments required to capture metrics, instead of using the `metrics_command` and `metrics_command_args` properties in the manifest.
+
+If the `metrics_command` fails, for example if the `[MY-SERVICE]-metrics` binary exits with a non-zero exit code, the service-metrics job will not start, or will exit with 0 if it was already running. In this case, the BOSH instance shows as `failing` and `monit` will try to restart the service-metrics job.
+
+### Notes
 
 The service metrics release does not currently support the BOSH v2 manifest format, which allows job level properties.
 

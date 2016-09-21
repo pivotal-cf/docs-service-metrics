@@ -15,12 +15,15 @@ The executable can accept command line arguments to produce metrics. There is no
 
 The executable you write must be callable from the command line and optionally accept arguments. See the following example:
 
-<pre class="terminal">./bin/generate-metrics --all --config /var/vcap/jobs/some-service/conf.yml</pre>
+```bash
+./bin/generate-metrics --all --config /var/vcap/jobs/some-service/conf.yml
+```
 
-## Output
+### <a id="generate-metrics-output"></a> Output
+
 The return type must be a JSON array. Every element in this array is a metric, and each metric sample must provide the following keys: `key`, `value`, `unit`.
 
-<pre class="terminal">
+```json
 [
   {
     "key": "average_delay",
@@ -28,6 +31,6 @@ The return type must be a JSON array. Every element in this array is a metric, a
     "unit": "ms"
   },
 ]
-</pre>
+```
 
 Pivotal recommends that you follow the [Metrics 2.0 spec](http://metrics20.org/spec/#units) for unit names, and use SI units and prefixes where appropriate.

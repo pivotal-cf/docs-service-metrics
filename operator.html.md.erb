@@ -50,12 +50,6 @@ The service metrics job can be configured with the following properties:
 | `execution_interval_seconds` | int              | how often the metric generation command runs                                                                                                          | no       | 60                                      |
 | `debug`                      | boolean          | turn verbose mode on/off                                                                                                                              | no       | false                                   |
 | `monit_dependencies`         | array of strings | jobs that must run before monit attempts to start the service metrics job. This is a way to define job dependencies, which are not supported by BOSH. | no       | []                                      |
-| `nats.machines`              | array of strings | IP addresses of Cloud Foundry NATS servers                                                                                                            | yes      | n/a                                     |
-| `nats.user`                  | string           | Username for Cloud Controller client to connect to NATS                                                                                               | yes      | n/a                                     |
-| `nats.password`              | string           | Password for Cloud Controller client to connect to NATS                                                                                               | yes      | n/a                                     |
-| `nats.port`                  | int              | IP port of Cloud Foundry NATS server                                                                                                                  | yes      | n/a                                     |
-| `etcd.machines`              | array of strings | IP addresses of Cloud Foundry etcd servers                                                                                                            | yes      | n/a                                     |
-| `etcd.maxconcurrentrequests` | int              | Number of concurrent requests to ETCD                                                                                                                 | no       | 10                                      |
 
 An example snippet is shown below:
 
@@ -71,16 +65,6 @@ properties:
     debug: true # optional
     monit_dependencies: # optional
     - service-broker
-    nats:
-      machines: # IP addresses of your Cloud Foundry NATS instances
-      - 10.0.1.109
-      port: 4222
-      user: nats
-      password: <REPLACE_WITH_PASSWORD>
-    etcd:
-      machines: # IP addresses of your Cloud Foundry etcd instances
-      - 10.0.1.110
-      maxconcurrentrequests: 5 # optional
   metron_agent:
     zone: z1
     deployment: <YOUR-SERVICE-NAME>

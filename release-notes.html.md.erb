@@ -3,10 +3,26 @@ title: Service Metrics Release Notes
 owner: London Services Enablement
 ---
 
-# <a id="release-notes"></a>Release Notes
+# <a id="release-notes"></a> v1.5.0
 
 ## <a id="new-features"></a>New Features
 
+- Default path for the metrics binary
+
+
+- The ability for metrics adapters to indicate that the service is not yet ready to return metrics, but to try again on the schedule.
+  - Implement this feature by returning a `10` exit code from your metrics adapter.
+- The service metrics adapter `metrics_command` is automatically detected if placed in a default location.
+  - `/var/vcap/jobs/service-metrics-adapter/bin/collect-service-metrics` is the default.
+  - Best practice is to template any command arguments into a script that is placed at the default location.
+  - Script should be executable by `vcap`.
+- Info logging to indicate the metrics collection has started and finished.
+- Verified BOSH release against a TLS enabled Metron environment
+
 ## <a id="breaking-changes"></a>Breaking Changes
 
+- None
+
 ## <a id="bug-fixes"></a>Bug fixes
+
+- Remove unrequired NATS / ectd job properties from BOSH release

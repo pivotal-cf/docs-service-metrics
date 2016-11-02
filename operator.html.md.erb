@@ -101,3 +101,8 @@ If the `metrics_command` fails, for example if the `[MY-SERVICE]-metrics` binary
 The service metrics release does not currently support the BOSH v2 manifest format, which allows job level properties.
 
 The service metrics release supports enabling TLS between Metron and Doppler, which is documented on the [loggregator release](https://github.com/cloudfoundry/loggregator#enabling-tls-between-metron-and-doppler).
+
+## <a id="logging"></a> Logging
+Service metrics logs to files in `/var/vcap/sys/log/service-metrics`, and also to syslog.
+
+For forwarding syslog to a third party syslog drain (e.g. papertrail) we recommend co-locating the [syslog-release.](https://github.com/cloudfoundry/syslog-release)

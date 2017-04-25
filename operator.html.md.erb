@@ -3,44 +3,17 @@ title: Deploying a Release with Service Metrics
 owner: London Services Enablement
 ---
 
-## <a id="upload-required-releases"></a> Upload Required Releases
-Upload the following releases to your BOSH director:
+## <a id="add-service-metrics"></a> Add service metrics to your bosh manifest
 
-* Your service release
-* The service-metrics release
-* Your service-name-metrics release
+The service metrics release provides a job called `service_metrics` that can be co-located with other bosh jobs to gather metrics from them.
 
-## <a id="write-bosh-manifest"></a> Write a BOSH Manifest
-The service manifest must have a non-errand instance group that co-locates the following jobs:
+The `metron_agent` job must accompany `service_metrics` to emit these metrics to the Cloud Foundry Loggregator.
 
-* The `<YOUR-SERVICE-NAME>` job from the service release
-* The `service-metrics` job from the service metrics release
-* The `<YOUR-SERVICE-NAME>-metrics` job from <YOUR-SERVICE-NAME>-metrics release
-* The `metron_agent` job from the Loggregator release
+### <a id="service-metrics-job"></a> Add service_metrics job
 
-```yaml
-instance_groups:
-- name: service-metrics
-  instances: 1
-  jobs:
-  - name: <YOUR-SERVICE-NAME>
-    release: service-release
-  - name: service_metrics
-    release: service-metrics
-  - name: <YOUR-SERVICE-NAME>-metrics
-    release: <YOUR-SERVICE-NAME>-metrics
-  - name: metron_agent
-    release: loggregator
-  stemcell: trusty
-  vm_type: medium
-  networks:
-  - name: service-metrics
-  azs: [eu-west-1c]
-```
+Add the `service_metrics` job to an instance group in your bosh manifest.
 
-### <a id="properties"></a> Properties
-
-The service metrics job can be configured with the following properties:
+Configure the `service_metrics` job with the following properties:
 
 | Field                        | Type             | Description                                                                                                                                           | Required | Default Value                           |
 |:-----------------------------|:-----------------|:------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|:----------------------------------------|
@@ -51,44 +24,22 @@ The service metrics job can be configured with the following properties:
 | `debug`                      | boolean          | turn verbose mode on/off                                                                                                                              | no       | false                                   |
 | `monit_dependencies`         | array of strings | jobs that must run before monit attempts to start the service metrics job. This is a way to define job dependencies, which are not supported by BOSH. | no       | []                                      |
 
-An example snippet is shown below:
 
-```yaml
-properties:
-  service_metrics: #the service metrics release template expects the property key to be service_metrics, even though the job is called service-metrics
-    origin: <YOUR-SERVICE-NAME>
-    metrics_command: /bin/echo # optional
-    metrics_command_args: # optional
-    - "-n"
-    - '[{"key":"service-dummy","value":99,"unit":"metric"}]'
-    execution_interval_seconds: 5 # optional
-    debug: true # optional
-    monit_dependencies: # optional
-    - service-broker
-  metron_agent:
-    zone: z1
-    deployment: <YOUR-SERVICE-NAME>
-    dropsonde_incoming_port: 3457 # optional
-    protocols:
-    - udp  # default protocol
-    - tls  # optional, to connect to doppler over TLS
-    tls:  # optional, to connect to doppler over TLS
-      client_cert: <REPLACE_WITH_METRON_AGENT_CERTIFICATE>
-      client_key: <REPLACE_WITH_METRON_AGENT_PRIVATE_KEY>
-  metron_endpoint:
-    shared_secret: <REPLACE-WITH-SECRET>
-  loggregator:
-    etcd:
-      machines:
-        - 10.0.1.110
-    tls: # optional, to connect to doppler over TLS
-      ca_cert: <REPLACE_WITH_LOGGREGATOR_CA_CERTIFICATE>
-  loggregator_endpoint:
-    shared_secret: <REPLACE-WITH-SECRET>
-```
+### <a id="metron-agent-job"></a> Add metron_agent job
 
-<a id="metrics-command"></a>
-### Metrics command
+Co-locate the `metron_agent` job with the `service_metrics` job.
+
+Configure the `metron_agent` job as appropriate for the version of Cloud Foundry Loggregator that you want to target.
+
+Loggregator release provides [a summary](https://github.com/cloudfoundry/loggregator/blob/develop/docs/using_separate_release.md) for how to configure `metron_agent` using the `loggregator` release.
+
+The following example manifests show how to configure `metron_agent` for different versions of Pivotal Cloud Foundry (PCF):
+
+- [PCF 1.8](https://github.com/pivotal-cf/service-metrics-release/blob/master/manifests/example_manifest_pcf_1.8.yml)
+- [PCF 1.9](https://github.com/pivotal-cf/service-metrics-release/blob/master/manifests/example_manifest_pcf_1.9.yml)
+- [PCF 1.10](https://github.com/pivotal-cf/service-metrics-release/blob/master/manifests/example_manifest_pcf_1.10.yml)
+
+## <a id="metrics-command"></a> Metrics command
 
 The default `metrics_command` is `/var/vcap/jobs/service-metrics-adapter/bin/collect-service-metrics`.
 
@@ -96,13 +47,7 @@ We recommend creating a `service-metrics-adapter` job in your service release th
 
 If the `metrics_command` fails, for example if the `[MY-SERVICE]-metrics` binary exits with a non-zero exit code, the service-metrics job will not start, or will exit with 0 if it was already running. In this case, the BOSH instance shows as `failing` and `monit` will try to restart the service-metrics job.
 
-### Notes
-
-The service metrics release does not currently support the BOSH v2 manifest format, which allows job level properties.
-
-The service metrics release supports enabling TLS between Metron and Doppler, which is documented on the [loggregator release](https://github.com/cloudfoundry/loggregator#enabling-tls-between-metron-and-doppler).
-
 ## <a id="logging"></a> Logging
 Service metrics logs to files in `/var/vcap/sys/log/service-metrics`, and also to syslog.
 
-For forwarding syslog to a third party syslog drain (e.g. papertrail) we recommend co-locating the [syslog-release.](https://github.com/cloudfoundry/syslog-release)
+For forwarding syslog to a third party syslog drain (e.g. Papertrail) we recommend co-locating the [syslog-release](https://github.com/cloudfoundry/syslog-release).

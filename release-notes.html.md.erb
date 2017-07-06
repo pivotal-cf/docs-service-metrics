@@ -3,7 +3,7 @@ title: Service Metrics Release Notes
 owner: London Services Enablement
 ---
 
-# <a id="release-notes"></a> 1.5.5
+# <a id="release-notes"></a> 1.5.7
 
 ## <a id="new-features"></a>New Features
 
@@ -16,6 +16,7 @@ owner: London Services Enablement
 - `metrics_command_args` is now optional, best practice is to use the default command location and template arguments into a script, as described above.
 - Info logging to indicate the metrics collection has started and finished.
 - Verified BOSH release against a TLS enabled Metron environment
+- Use Golang 1.8.3 [1.5.7]
 
 ## <a id="breaking-changes"></a>Breaking Changes
 
@@ -28,3 +29,4 @@ owner: London Services Enablement
 - Assign least required file permissions to jobs and packages [1.5.3]
 - Bump Golang version to 1.7.4 [1.5.4]
 - Fix an issue which could cause collocated jobs to be unable to start [1.5.5]
+- Resolves issue with duplicate syslog entries when co-locating syslog-release or syslog-migration-release. [1.5.7]

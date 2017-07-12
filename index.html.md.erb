@@ -14,4 +14,4 @@ Service metrics are co-located with the service job. The service job runs as a d
 
 Service metrics receives the output of the metrics generation command and performs validation on the [format](author.html#output).
 
-If validation succeeds, Service metrics sends the metrics to the Metron agent deployed on the VM. Metron forwards metrics to Doppler. You can configure Doppler to forward the metrics to a third party application such as Papertrail or to the Loggregator Traffic Controller.
+If validation succeeds, Service metrics sends the metrics to the Metron agent deployed on the VM. Metron forwards metrics to Doppler. In turn, Doppler can send the metrics to a third-party app such as Papertrail or to the Loggregator Traffic Controller.

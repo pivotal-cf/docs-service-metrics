@@ -3,9 +3,9 @@ title: Service Metrics Release Notes
 owner: London Services Enablement
 ---
 
-# <a id="release-notes"></a> 1.5.7
+# <a id="release-notes"></a> 1.5.x
 
-## <a id="new-features"></a>New Features
+## <a id="new-features"></a> New Features
 
 - The ability for metrics adapters to indicate that the service is not yet ready to return metrics, but to try again on the schedule.
   - Implement this feature by returning a `10` exit code from your metrics adapter.
@@ -30,3 +30,4 @@ owner: London Services Enablement
 - Bump Golang version to 1.7.4 [1.5.4]
 - Fix an issue which could cause collocated jobs to be unable to start [1.5.5]
 - Resolves issue with duplicate syslog entries when co-locating syslog-release or syslog-migration-release. [1.5.7]
+- Log files in `/var/vcap/sys/log/service-metrics/*` are no longer truncated when the service-metrics process restarts via Monit. We reccomend using [syslog-migration-release](https://github.com/pivotal-cf/syslog-migration-release) to ensure logs are not lost. [1.5.8]

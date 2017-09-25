@@ -17,6 +17,7 @@ owner: London Services Enablement
 - Info logging to indicate the metrics collection has started and finished.
 - Verified BOSH release against a TLS enabled Metron environment
 - Use Golang 1.8.3 [1.5.7]
+- Release distributed with SHA2 checksums only [1.5.9]
 
 ## <a id="breaking-changes"></a>Breaking Changes
 
@@ -31,3 +32,4 @@ owner: London Services Enablement
 - Fix an issue which could cause collocated jobs to be unable to start [1.5.5]
 - Resolves issue with duplicate syslog entries when co-locating syslog-release or syslog-migration-release. [1.5.7]
 - Log files in `/var/vcap/sys/log/service-metrics/*` are no longer truncated when the service-metrics process restarts via Monit. We reccomend using [syslog-migration-release](https://github.com/pivotal-cf/syslog-migration-release) to ensure logs are not lost. [1.5.8]
+- Log errors when there is a connection issue with metron [1.5.9]

@@ -40,6 +40,7 @@ The following example manifests show how to configure `metron_agent` for differe
 - [PCF 1.10](https://github.com/pivotal-cf/service-metrics-release/blob/master/manifests/example_manifest_pcf_1.10.yml)
 - [PCF 1.11](https://github.com/pivotal-cf/service-metrics-release/blob/master/manifests/example_manifest_pcf_1.11.yml)
 - [PCF 1.12](https://github.com/pivotal-cf/service-metrics-release/blob/master/manifests/example_manifest_pcf_1.12.yml)
+- [PCF 2.00](https://github.com/pivotal-cf/service-metrics-release/blob/master/manifests/example_manifest_pcf_2.0.yml)
 
 ## <a id="metrics-command"></a> Metrics command
 
@@ -53,3 +54,6 @@ If the `metrics_command` fails, for example if the `[MY-SERVICE]-metrics` binary
 Service metrics logs to files in `/var/vcap/sys/log/service-metrics`, and also to syslog.
 
 For forwarding syslog to a third party syslog drain (e.g. Papertrail) we recommend co-locating the [syslog-release](https://github.com/cloudfoundry/syslog-release).
+
+## <a id="internal-checksums"></a> Internal checksums
+If you are publishing a tile to be consumed by Ops Manager 1.8.x or 1.9.x, you will need to build your tile using releases with SHA1 internal checksums. Service Metrics releases are published using SHA2 internal checksums. You can convert these releases to use SHA1 internal checksums using the BOSH CLI command `sha1ify-release`.

@@ -35,3 +35,4 @@ owner: London Services Enablement
 - Log files in `/var/vcap/sys/log/service-metrics/*` are no longer truncated when the service-metrics process restarts via Monit. We reccomend using [syslog-migration-release](https://github.com/pivotal-cf/syslog-migration-release) to ensure logs are not lost. [1.5.8]
 - Log errors when there is a connection issue with metron [1.5.9]
 - Service metrics now uses a drain script to prevent monit timeout issues [1.5.11]
+- Resolve templating issue when using special characters in job properties [1.5.12]

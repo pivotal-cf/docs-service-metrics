@@ -5,13 +5,21 @@ owner: London Services Enablement
 
 ## <a id="overview"></a> Overview
 
-The service-metrics SDK allows service authors to integrate with [Loggregator](https://docs.cloudfoundry.org/loggregator/architecture.html), the Cloud Foundry logging and metrics system, using a co-locatable BOSH release.
+The service-metrics SDK allows service authors to integrate with
+[Loggregator](https://docs.cloudfoundry.org/loggregator/architecture.html),
+the Cloud Foundry logging and metrics system, using a colocatable BOSH release.
 
 ## <a id="architecture"></a> How Do Service Metrics Work?
 ![service-catalog-workflow](/img/service_metrics_workflow.mmd.png)
 
-Service metrics are co-located with the service job. The service job runs as a daemon process and executes a metrics generation command at regular intervals. The service author generally provides a binary for that purpose. In this case the metrics generation command invokes the binary.
+Service metrics are colocated with the service job.
+The service job runs as a daemon process and executes a metrics generation command at regular intervals.
+The service author generally provides a binary for that purpose.
+In this case, the metrics generation command invokes the binary.
 
 Service metrics receives the output of the metrics generation command and performs validation on the [format](author.html#output).
 
-If validation succeeds, Service-backups sends the metrics to the Metron agent deployed on the VM. Metron forwards metrics to Doppler. You can configure Doppler to forward the metrics to a third party application such as Papertrail or to the Loggregator Traffic Controller.
+If validation succeeds, Service-backups sends the metrics to the Metron agent deployed on the VM.
+Metron forwards metrics to Doppler.
+You can configure Doppler to forward the metrics to a third-party app such as Papertrail
+or to the Loggregator Traffic Controller.

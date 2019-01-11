@@ -26,7 +26,7 @@ Instructions on doing a PR: https://docs.google.com/a/pivotal.io/document/d/14Go
 
 1. Commit new feature docs to **master** only.
 
-2. When the release is ready to publish, the docs team will create a new live/production branch from master, for example, v19.1.x.
+2. When the release is ready to publish, the docs team will create a new live/production branch from master, for example, v1.6.x.
 
 ## Fixes and enhancements on master
 

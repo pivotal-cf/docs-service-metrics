@@ -5,7 +5,7 @@
 |-----------------| ------|
 | master          | Unreleased version https://docs-pcf-staging.cfapps.io/svc-sdk/service-metrics/1-n/|
 | v1.5.x         |live, https://docs.pivotal.io/svc-sdk/service-metrics/1-5/|
-| v1.4.x         |live, https://docs.pivotal.io/svc-sdk/service-metrics/1-4/ |
+| v1.4.x         |NOT IN USE, (PDF available at https://docs.pivotal.io/archives/service-metrics-pcf-1.4.3.pdf)|
 
 
 # Book repo for publishing this content

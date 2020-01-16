@@ -55,5 +55,4 @@ Service metrics logs to files in `/var/vcap/sys/log/service-metrics`, and also t
 
 For forwarding syslog to a third party syslog drain (e.g. Papertrail) we recommend co-locating the [syslog-release](https://github.com/cloudfoundry/syslog-release).
 
-## <a id="internal-checksums"></a> Internal checksums
-If you are publishing a tile to be consumed by Ops Manager 1.8.x or 1.9.x, you will need to build your tile using releases with SHA1 internal checksums. Service Metrics releases are published using SHA2 internal checksums. You can convert these releases to use SHA1 internal checksums using the BOSH CLI command `sha1ify-release`.
+If you are publishing a tile to be consumed by <%= vars.ops_manager %> v1.8 or v1.9, you must build your tile using releases with SHA1 internal checksums. Service Metrics releases are published using SHA2 internal checksums. You can convert these releases to use SHA1 internal checksums by running the BOSH CLI command `sha1ify-release`.

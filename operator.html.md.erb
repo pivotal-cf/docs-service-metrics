@@ -49,7 +49,7 @@ The following example manifests show how to configure `metron_agent` for differe
 
 The default `metrics_command` is `/var/vcap/jobs/service-metrics-adapter/bin/collect-service-metrics`.
 
-<%= vars.recommended_by %> recommends creating a `service-metrics-adapter` job in your service release that templates this script. The `collect-service-metrics` script can encapsulate any commands and arguments required to capture metrics, instead of using the `metrics_command` and `metrics_command_args` properties in the manifest.
+VMware recommends creating a `service-metrics-adapter` job in your service release that templates this script. The `collect-service-metrics` script can encapsulate any commands and arguments required to capture metrics, instead of using the `metrics_command` and `metrics_command_args` properties in the manifest.
 
 If the `metrics_command` fails, for example if the `[MY-SERVICE]-metrics` binary exits with a non-zero exit code, the service-metrics job does not start, or exits with 0 if it was already running. In this case, the BOSH instance shows as `failing` and `monit` tries to restart the service-metrics job.
 
@@ -58,7 +58,7 @@ If the `metrics_command` fails, for example if the `[MY-SERVICE]-metrics` binary
 
 Service metrics logs to files in `/var/vcap/sys/log/service-metrics` and to syslog.
 
-For forwarding syslog to a third-party syslog drain, <%= vars.recommended_by %> recommends colocating the syslog. For more information, see the [Syslog BOSH Release](https://github.com/cloudfoundry/syslog-release) repository on GitHub.
+For forwarding syslog to a third-party syslog drain, VMware recommends colocating the syslog. For more information, see the [Syslog BOSH Release](https://github.com/cloudfoundry/syslog-release) repository on GitHub.
 
 
 ## <a id="internal-checksums"></a> Internal Checksums

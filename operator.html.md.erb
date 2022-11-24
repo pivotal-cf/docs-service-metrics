@@ -46,13 +46,13 @@ The following example manifests show how to configure `metron_agent` for differe
 
 The default `metrics_command` is `/var/vcap/jobs/service-metrics-adapter/bin/collect-service-metrics`.
 
-We recommend creating a `service-metrics-adapter` job in your service release that templates this script. The `collect-service-metrics` script can encapsulate any commands and arguments required to capture metrics, instead of using the `metrics_command` and `metrics_command_args` properties in the manifest.
+VMware recommends creating a `service-metrics-adapter` job in your service release that templates this script. The `collect-service-metrics` script can encapsulate any commands and arguments required to capture metrics, instead of using the `metrics_command` and `metrics_command_args` properties in the manifest.
 
 If the `metrics_command` fails, for example if the `[MY-SERVICE]-metrics` binary exits with a non-zero exit code, the service-metrics job will not start, or will exit with 0 if it was already running. In this case, the BOSH instance shows as `failing` and `monit` will try to restart the service-metrics job.
 
 ## <a id="logging"></a> Logging
 Service metrics logs to files in `/var/vcap/sys/log/service-metrics`, and also to syslog.
 
-For forwarding syslog to a third party syslog drain (e.g. Papertrail) we recommend co-locating the [syslog-release](https://github.com/cloudfoundry/syslog-release).
+For forwarding syslog to a third party syslog drain (e.g. Papertrail) VMware recommends co-locating the [syslog-release](https://github.com/cloudfoundry/syslog-release).
 
 If you are publishing a tile to be consumed by <%= vars.ops_manager %> v1.8 or v1.9, you must build your tile using releases with SHA1 internal checksums. Service Metrics releases are published using SHA2 internal checksums. You can convert these releases to use SHA1 internal checksums by running the BOSH CLI command `sha1ify-release`.
